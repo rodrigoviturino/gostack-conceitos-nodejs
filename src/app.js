@@ -58,7 +58,18 @@ app.put("/repositories/:id", (request, response) => {
 });
 
 app.delete("/repositories/:id", (request, response) => {
-  // TODO
+  const { id } = request.params;
+
+  const indexRepository = repositories.findIndex((repository) => repository.id === id);
+  if(indexRepository === -1){
+    return response.status(400).json({
+      message: "Repository not exists!"
+    })
+  }
+
+  const removeRepository = repositories.splice(indexRepository,1);
+
+  return response.json(removeRepository);
 });
 
 app.post("/repositories/:id/like", (request, response) => {
